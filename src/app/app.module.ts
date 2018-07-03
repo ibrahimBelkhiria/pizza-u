@@ -8,13 +8,18 @@ import {AngularFireModule} from 'angularfire2';
 import {AuthenticationService} from '../providers/authentication.service';
 import { HomeComponent } from './home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import {Route, RouterModule, Routes} from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AdminComponent } from './admin/admin.component';
 import {AuthGuard} from './auth.guard';
 import {AdminGuard} from './admin.guard';
-
+import { EvenementComponent } from './evenement/evenement.component';
+import {FormsModule} from '@angular/forms';
+import {EvenmentService} from '../providers/evenment.service';
+import { AddEventComponent } from './evenement/add-event/add-event.component';
+import { EventLisComponent } from './evenement/event-lis/event-lis.component';
 
 
 const config = {
@@ -29,7 +34,8 @@ const config = {
 
 const appRoutes: Routes = [
   {path: 'home' , component: HomeComponent, canActivate: [AuthGuard]},
-  {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]}
+  {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
+  {path: 'events', component: EvenementComponent, canActivate: [AdminGuard] }
 
   ];
 
@@ -40,7 +46,10 @@ const appRoutes: Routes = [
     AppComponent,
     HomeComponent,
     NavbarComponent,
-    AdminComponent
+    AdminComponent,
+    EvenementComponent,
+    AddEventComponent,
+    EventLisComponent
   ],
   imports: [
     BrowserModule,
@@ -49,9 +58,10 @@ const appRoutes: Routes = [
     AngularFireModule.initializeApp(config),
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    FormsModule
   ],
-  providers: [AuthenticationService, AuthGuard, AdminGuard],
+  providers: [AuthenticationService, AuthGuard, AdminGuard, EvenmentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,24 @@
+<h5 class="text-primary">Add Some events</h5>
+
+<form (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="Title"> Event Title</label>
+    <input type="text" class="form-control" id="Title" name="title" [(ngModel)]="event.title" placeholder="ex: pizaa event .." required>
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <input type="text" class="form-control" id="description" name="description" [(ngModel)]="event.description" placeholder="description" required>
+  </div>
+
+  <div class="input-group">
+    <input class="form-control" placeholder="yyyy-mm-dd"
+           name="dp" [(ngModel)]="event.date" ngbDatepicker #d="ngbDatepicker">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+        <img src="../../../assets/img/calendar-icon.png" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
+      </button>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
