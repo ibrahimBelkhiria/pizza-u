@@ -10,6 +10,12 @@ import { HomeComponent } from './home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {Route, RouterModule, Routes} from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AdminComponent } from './admin/admin.component';
+import {AuthGuard} from './auth.guard';
+import {AdminGuard} from './admin.guard';
+
+
 
 const config = {
   apiKey: 'AIzaSyBl1CSb1CPwhTJxEIkTIROgBKRxIqRkp84',
@@ -22,7 +28,8 @@ const config = {
 
 
 const appRoutes: Routes = [
-  {path: 'home' , component: HomeComponent}
+  {path: 'home' , component: HomeComponent, canActivate: [AuthGuard]},
+  {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]}
 
   ];
 
@@ -32,7 +39,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -40,9 +48,10 @@ const appRoutes: Routes = [
     AngularFireDatabaseModule,
     AngularFireModule.initializeApp(config),
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    AngularFirestoreModule
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

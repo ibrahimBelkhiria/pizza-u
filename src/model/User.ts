@@ -1,17 +1,11 @@
-export class User {
+export interface Roles {
+  subscriber?: boolean;
+  admin?: boolean;
+}
 
-
-  public displayName: string;
-  public email: string;
-  public photoURL: string;
-
-  constructor(user: any) {
-    if (user) {
-      this.displayName = user.displayName;
-      this.email = user.email;
-      this.photoURL = user.photoURL;
-    }
-  }
-
-
+export interface User {
+  uid: string;
+  username: string;
+  email: string;
+  roles: Roles;
 }

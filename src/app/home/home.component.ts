@@ -9,12 +9,13 @@ import {AuthenticationService} from '../../providers/authentication.service';
 export class HomeComponent implements OnInit {
 
   auth: AuthenticationService;
-  username ;
+  user ;
 
   constructor(auth: AuthenticationService) {
     this.auth = auth ;
-    console.log(this.auth.currentUser);
-    this.username = this.auth.currentUser.displayName;
+    this.user = auth.user$.subscribe( (user) => {
+    this.user = user;
+  });
   }
 
   ngOnInit() {
