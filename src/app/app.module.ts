@@ -20,6 +20,10 @@ import {FormsModule} from '@angular/forms';
 import {EvenmentService} from '../providers/evenment.service';
 import { AddEventComponent } from './evenement/add-event/add-event.component';
 import { EventLisComponent } from './evenement/event-lis/event-lis.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
+import { EventUpdateComponent } from './evenement/event-update/event-update.component';
+import { EventDetailComponent } from './evenement/event-detail/event-detail.component';
 
 
 const config = {
@@ -33,9 +37,14 @@ const config = {
 
 
 const appRoutes: Routes = [
+  {path: 'login', component: LoginComponent },
+  {path: 'signup', component: SignupComponent },
   {path: 'home' , component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
-  {path: 'events', component: EvenementComponent, canActivate: [AdminGuard] }
+  {path: 'events', component: EvenementComponent, canActivate: [AdminGuard] },
+  {path: 'event-update/:event', component: EventUpdateComponent },
+  {path: 'event-detail/:event', component: EventDetailComponent }
+
 
   ];
 
@@ -49,7 +58,11 @@ const appRoutes: Routes = [
     AdminComponent,
     EvenementComponent,
     AddEventComponent,
-    EventLisComponent
+    EventLisComponent,
+    LoginComponent,
+    SignupComponent,
+    EventUpdateComponent,
+    EventDetailComponent
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,8 @@
     <th scope="col">Title</th>
     <th scope="col">Description</th>
     <th scope="col">date</th>
+    <th scope="col">number of places </th>
+    <th scope="col">reserved</th>
     <th scope="col">Actions</th>
   </tr>
   </thead>
@@ -15,9 +17,13 @@
     <td>{{e.title}}</td>
     <td>{{e.description}}</td>
     <td>{{e.date.day}}-{{e.date.month}}-{{e.date.year}}</td>
+    <td>{{e.nbreDePlace}}</td>
+    <td>{{e.reserved}}</td>
     <td>
       <button class="btn btn-primary" (click)="updateEvent(e)">update</button>
       <button class="btn btn-danger" (click)="deleteEvent(e)">Delete</button>
+      <button class="btn btn-default" (click)="showEvent(e)">show Details</button>
+
     </td>
   </tr>
 

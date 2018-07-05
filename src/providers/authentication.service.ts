@@ -29,19 +29,32 @@ export class AuthenticationService {
   }
 
 
+
+  getCurrentUserId() {
+    return this.afAuth.auth.currentUser.uid;
+  }
+
  // return true if the user is authenticated
   get authenticated(): boolean {
-    return this.afAuth.authState !== null;
+    console.log(this.afAuth.auth.currentUser == null );
+    return this.afAuth.auth.currentUser !== null;
   }
 
   ///// Login/Signup //////
-  googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    return this.oAuthLogin(provider);
+
+
+  signUp(email: string, password: string) {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(() => {
+      console.log('user created!');
+      this.googleLogin(email, password);
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
-  private oAuthLogin(provider) {
-    return this.afAuth.auth.signInWithPopup(provider)
+
+  googleLogin(email: string, pass: string) {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, pass)
       .then((credential) => {
         this.updateUserData(credential.user).then(() => {
           this.router.navigate(['home']);
@@ -49,6 +62,16 @@ export class AuthenticationService {
 
       });
   }
+
+ /* private oAuthLogin(provider) {
+    return this.afAuth.auth.signInWithPopup(provider)
+      .then((credential) => {
+        this.updateUserData(credential.user).then(() => {
+          this.router.navigate(['home']);
+        });
+
+      });
+  }*/
 
   signOut() {
     this.afAuth.auth.signOut().then(() => {

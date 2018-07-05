@@ -1,4 +1,4 @@
-<h5 class="text-primary">Add Some events</h5>
+<h5 class="text-primary">Update the event : {{event.title}}</h5>
 
 <form (ngSubmit)="onSubmit()">
   <div class="form-group">
@@ -21,8 +21,12 @@
   </div>
   <div class="form-group">
     <label for="nbre">number of seats </label>
-    <input type="number" class="form-control"  min="1" id="nbre" name="nbreDeplace" [(ngModel)]="event.nbreDePlace"  required>
+    <input type="number" class="form-control" id="nbre" name="nbreDeplace" [(ngModel)]="event.nbreDePlace"  required>
   </div>
 
-  <button type="submit" class="btn btn-primary">Submit</button>
+
+  <button type="submit" class="btn btn-primary">Update</button>
+  <button (click)="back()" class="btn btn-primary">Go Back</button>
+
+
 </form>

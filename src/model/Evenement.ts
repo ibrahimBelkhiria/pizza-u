@@ -3,6 +3,8 @@ export interface Evenement {
   title?: string;
   description?: string;
   date?: string;
+  nbreDePlace?: number;
+  reserved?: number;
 
 
 }

@@ -4,6 +4,7 @@ import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} 
 import {Observable} from 'rxjs';
 import {Evenement} from '../model/Evenement';
 import 'rxjs-compat/add/operator/map';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class EvenmentService {
 
 
 
-  constructor(public afs: AngularFirestore) {
+  constructor(public afs: AngularFirestore, private router: Router) {
     // this.events = this.afs.collection('events').valueChanges();
     this.eventsCollection = this.afs.collection('events', ref => ref.orderBy('title', 'asc'));
 
@@ -43,7 +44,7 @@ export class EvenmentService {
   }
 
   deleteEvent(event: Evenement) {
-    this.eventDoc = this.afs.doc(`items/${event.id}`);
+    this.eventDoc = this.afs.doc(`events/${event.id}`);
     this.eventDoc.delete().then(() => {
       console.log('event deleted with succes');
     }).catch((err) => {
@@ -51,9 +52,17 @@ export class EvenmentService {
     });
   }
 
-  updateEvent(event: Evenement) {
-    this.eventDoc = this.afs.doc(`items/${event.id}`);
+  getEvent(evenetId) {
+    return  this.afs.doc(`events/${evenetId}`);
+  }
+
+
+
+
+  updateEvent(event: Evenement, id) {
+    this.eventDoc = this.afs.doc(`events/${id}`);
     this.eventDoc.update(event).then(() => {
+
       console.log('event updated with succes');
     }).catch((err) => {
       console.log(err);

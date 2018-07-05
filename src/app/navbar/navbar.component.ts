@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from '../../providers/authentication.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -10,11 +11,11 @@ export class NavbarComponent implements OnInit {
 
   auth: AuthenticationService;
   user;
-  constructor(auth: AuthenticationService) {
+  constructor(auth: AuthenticationService, private router: Router) {
      this.auth = auth;
 
      this.auth.user$.subscribe(user => {
-       console.log(user);
+     //  console.log(user);
        this.user = user;
      });
 
@@ -28,7 +29,7 @@ export class NavbarComponent implements OnInit {
   }
 
   doLogin(): void {
-    this.auth.googleLogin();
+    this.router.navigate(['login']);
     // console.log(this.auth.currentUser);
   }
 

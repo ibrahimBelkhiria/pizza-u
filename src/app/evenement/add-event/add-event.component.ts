@@ -14,7 +14,9 @@ export class AddEventComponent implements OnInit {
   event: Evenement = {
       title: '',
       description: '',
-      date : ''
+      date : '',
+      nbreDePlace: 0,
+      reserved : 0
   };
 
   constructor(private evnetService: EvenmentService) { }

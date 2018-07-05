@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {EvenmentService} from '../../../providers/evenment.service';
 import {Evenement} from '../../../model/Evenement';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-event-lis',
@@ -11,7 +12,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 export class EventLisComponent implements OnInit {
 
   evenement: Evenement[];
-  constructor(private eventService: EvenmentService, private modalService: NgbModal) {
+  constructor(private eventService: EvenmentService, private router: Router) {
     this.getEvnetList();
   }
 
@@ -19,7 +20,10 @@ export class EventLisComponent implements OnInit {
   ngOnInit() {
   }
     updateEvent(e: Evenement) {
-
+        console.log(e);
+        this.router.navigate(['event-update', e.id]).catch((error) => {
+          console.log(error);
+        });
     }
 
     deleteEvent(e: Evenement) {
@@ -35,8 +39,12 @@ export class EventLisComponent implements OnInit {
       this.evenement = res;
     });
 
-
     }
 
 
+  showEvent(e: Evenement) {
+    this.router.navigate(['event-detail', e.id]).catch((error) => {
+      console.log(error);
+    });
+  }
 }
