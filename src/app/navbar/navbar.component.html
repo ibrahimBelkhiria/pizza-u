@@ -17,6 +17,9 @@
       <li class="nav-item ">
         <a   routerLink="admin" class=" nav-link btn btn" *ngIf="user && user.roles.admin===true" >Administration</a>
       </li>
+      <li>
+        <a routerLink="my-events" class="nav-link btn" *ngIf="user">My Events</a>
+      </li>
 
     </ul>
   </div>

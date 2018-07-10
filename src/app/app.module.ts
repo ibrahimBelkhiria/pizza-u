@@ -24,6 +24,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { EventUpdateComponent } from './evenement/event-update/event-update.component';
 import { EventDetailComponent } from './evenement/event-detail/event-detail.component';
+import { MyEventsComponent } from './my-events/my-events.component';
 
 
 const config = {
@@ -39,6 +40,7 @@ const config = {
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent },
   {path: 'signup', component: SignupComponent },
+  {path: 'my-events', component: MyEventsComponent},
   {path: 'home' , component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
   {path: 'events', component: EvenementComponent, canActivate: [AdminGuard] },
@@ -62,7 +64,8 @@ const appRoutes: Routes = [
     LoginComponent,
     SignupComponent,
     EventUpdateComponent,
-    EventDetailComponent
+    EventDetailComponent,
+    MyEventsComponent
   ],
   imports: [
     BrowserModule,

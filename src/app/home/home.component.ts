@@ -31,9 +31,20 @@ export class HomeComponent implements OnInit {
 
   }
 
+
+  already(event: Evenement) {
+     const  uid = this.auth.getCurrentUserId();
+     // console.log(' subscribed: ' , this.attendService.UserisAlreadySubscribed(event.id, uid));
+    return this.attendService.UserisAlreadySubscribed(event.id, uid);
+  }
+
+
   attend(event: Evenement) {
          const  uid = this.auth.getCurrentUserId();
-         this.attendService.attend(event, uid);
+
+          // this.attendService.UserisAlreadySubscribed(event.id, uid);
+        //  console.log(this.attendService.UserisAlreadySubscribed(event.id, uid));
+        this.attendService.attend(event, uid);
 
   }
 }

@@ -37,7 +37,7 @@ export class EvenmentService {
 
   addEvent(event: Evenement) {
     this.eventsCollection.add(event).then(() => {
-      console.log('event added succes');
+      console.log('event added success');
     }).catch((err) => {
       console.log(err);
     });
