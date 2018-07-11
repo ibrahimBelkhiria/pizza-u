@@ -1,15 +1,25 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { EvenmentService } from './evenment.service';
+import {AngularFirestore} from 'angularfire2/firestore';
 
-describe('EvenmentService', () => {
+fdescribe('EvenmentService', () => {
+   /*let angularFireService: jasmine.SpyObj<AngularFirestore>;*/
+
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [EvenmentService]
-    });
+    // let eventService: EvenmentService;
+      TestBed.configureTestingModule(
+        {providers: [ EvenmentService]
+
+      });
   });
 
-  it('should be created', inject([EvenmentService], (service: EvenmentService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('the service exist', () => {
+    expect(TestBed.get(EvenmentService)).toBeTruthy();
+
+  });
+
+
+
+
 });

@@ -5,6 +5,7 @@ import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} 
 import {Observable} from 'rxjs';
 import {EventUser} from '../model/Event_User';
 import {forEach} from '@angular/router/src/utils/collection';
+import {User} from '../model/User';
 
 @Injectable({
   providedIn: 'root'
@@ -54,27 +55,61 @@ export class AttendingService {
 
   }
 
+  getAllUsersOfAGivenEvent(eventID) {
+    let events_users: EventUser[];
+    const  users: User[] = [];
+    const eventssRef = this.afs.collection('event_user', ref => ref.where('event_id', '==', eventID) );
+   return  eventssRef.valueChanges().map(value => {
+      events_users = value; // console.log(events_users);
+      // console.log(events_users);
+      return this.getUsers(events_users, eventID);
+
+
+    });
+
+
+  }
+  // return a user by id
+  getUserById(userId) {
+    // let user: User ;
+     return  this.afs.doc<User>(`users/${userId}`).valueChanges().map(value => value );
+     //  return user;
+  }
+
+  getUsers(events_users_table: EventUser[], event_id) {
+   const users: User[] = [];
+    const userIDs: string[] = [];
+    for (const v of events_users_table) {
+      if (v.event_id === event_id) {
+         userIDs.push(v.user_id);
+      }
+    }
+
+    for (const v of userIDs) {
+          this.getUserById(v).subscribe(value => users.push(value));
+    }
+
+
+        return users;
+  }
+
 
   getEventUserId(userId, eventId) {
     let events_users: EventUser[];
     let eventUserId;
     const eventssRef = this.afs.collection('event_user', ref => ref.where('user_id', '==', userId) );
-    eventssRef.valueChanges().subscribe(value => {
+   return   eventssRef.valueChanges().map(value => {
       events_users = value;  // console.log(events_users);
       //  console.log(userEvents);
 
       for (const v of events_users) {
         if (v.event_id === eventId) {
-              eventUserId = v.id;
-            console.log(eventUserId);
-
-
+          console.log(v.id);
+            return   eventUserId = v.id;
         }
       }
 
     });
-    return eventUserId;
-
 
   }
 
@@ -92,7 +127,7 @@ export class AttendingService {
 
   }
 
-    deleteAttendence(eUserId) {
+    deleteAttendence(eUserId: string) {
     // event-reserved -- ;
 
       this.eventUserDoc = this.afs.doc(`event_user/${eUserId}`);

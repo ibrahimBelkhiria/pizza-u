@@ -3,6 +3,7 @@ import {AttendingService} from '../../providers/attending.service';
 import {AuthenticationService} from '../../providers/authentication.service';
 import {Evenement} from '../../model/Evenement';
 import {EventUser} from '../../model/Event_User';
+import {EvenmentService} from '../../providers/evenment.service';
 
 @Component({
   selector: 'app-my-events',
@@ -12,7 +13,7 @@ import {EventUser} from '../../model/Event_User';
 export class MyEventsComponent implements OnInit {
   events: Evenement[];
   events_users: EventUser[];
-  constructor(private attendingService: AttendingService, private authService: AuthenticationService) {
+  constructor(private attendingService: AttendingService, private authService: AuthenticationService, private eventService: EvenmentService) {
     const  uid = this.authService.getCurrentUserId();
            this.events =  this.attendingService.getUserEvents(uid);
 
@@ -20,8 +21,17 @@ export class MyEventsComponent implements OnInit {
 
 
 
-  unsubscribe(eventId) {
-    this.attendingService.getEventUserId(this.authService.getCurrentUserId(), eventId);
+  unsubscribe(event: Evenement, eventId) {
+    this.attendingService.getEventUserId(this.authService.getCurrentUserId(), eventId).subscribe(
+      value => {
+        this.attendingService.deleteAttendence(value);
+        event.reserved--;
+        this.eventService.updateEvent(event, eventId);
+
+      }
+
+
+    );
   }
 
 
