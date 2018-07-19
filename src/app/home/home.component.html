@@ -13,9 +13,9 @@
   </div>
 
   <div class="card-footer" >
-      <div *ngIf="already(event)">already subs</div>
+      <div *ngIf="already(event)">you already subscribed to this event</div>
     <button  class="btn btn-default" (click)="attend(event)" [disabled]="!(event.reserved< event.nbreDePlace) || already(event)">Subscribe</button>  </div>
-
+    <button class="btn btn-success" (click)="detail(event)">view Details</button>
 </div>
 
 

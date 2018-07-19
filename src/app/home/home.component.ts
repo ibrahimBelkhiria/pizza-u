@@ -4,6 +4,8 @@ import {EvenmentService} from '../../providers/evenment.service';
 import {Evenement} from '../../model/Evenement';
 import {AttendingService} from '../../providers/attending.service';
 import {strictEqual} from 'assert';
+import {EventUser} from '../../model/Event_User';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -15,14 +17,18 @@ export class HomeComponent implements OnInit {
   auth: AuthenticationService;
   user ;
   events: Evenement[];
-  constructor(auth: AuthenticationService, private eventService: EvenmentService, private attendService: AttendingService) {
+  constructor(auth: AuthenticationService, private eventService: EvenmentService, private attendService: AttendingService, private router: Router) {
     this.auth = auth ;
     this.user = auth.user$.subscribe( (user) => {
     this.user = user;
   });
 
   }
-
+  detail(e) {
+    this.router.navigate(['event-detail', e.id]).catch((error) => {
+      console.log(error);
+    });
+  }
   ngOnInit() {
     this.eventService.getEvents().subscribe((res) => {
       console.log('loaded');
@@ -42,9 +48,16 @@ export class HomeComponent implements OnInit {
   attend(event: Evenement) {
          const  uid = this.auth.getCurrentUserId();
 
+          const eventUser: EventUser = {
+            user_id: uid,
+            event_id : event.id
+
+          };
+
+
           // this.attendService.UserisAlreadySubscribed(event.id, uid);
         //  console.log(this.attendService.UserisAlreadySubscribed(event.id, uid));
-        this.attendService.attend(event, uid);
+        this.attendService.attend(event, eventUser);
 
   }
 }

@@ -3,7 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { EvenmentService } from './evenment.service';
 import {AngularFirestore} from 'angularfire2/firestore';
 
-fdescribe('EvenmentService', () => {
+describe('EvenmentService', () => {
    /*let angularFireService: jasmine.SpyObj<AngularFirestore>;*/
 
   beforeEach(() => {

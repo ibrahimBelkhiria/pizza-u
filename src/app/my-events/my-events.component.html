@@ -6,6 +6,9 @@
     <h5 class="card-title">{{event.title}}</h5>
     <p class="card-text">{{event.description}}</p>
   </div>
-  <div class="card-footer"> <button (click)="unsubscribe(event,event.id)">Unsubscribe</button></div>
+  <div class="card-footer">
+    <button (click)="unsubscribe(event,event.id)">Unsubscribe</button>
+    <button class="btn btn-success" (click)="detail(event)">view Details</button>
+  </div>
 
 </div>

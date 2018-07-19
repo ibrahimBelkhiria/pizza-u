@@ -25,6 +25,7 @@ import { SignupComponent } from './signup/signup.component';
 import { EventUpdateComponent } from './evenement/event-update/event-update.component';
 import { EventDetailComponent } from './evenement/event-detail/event-detail.component';
 import { MyEventsComponent } from './my-events/my-events.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 const config = {
@@ -36,16 +37,16 @@ const config = {
   messagingSenderId: '1024337528763'
 };
 
-
 const appRoutes: Routes = [
+  {path: '', component: WelcomeComponent},
   {path: 'login', component: LoginComponent },
   {path: 'signup', component: SignupComponent },
   {path: 'my-events', component: MyEventsComponent},
+  {path: 'event-detail/:event', component: EventDetailComponent, canActivate: [AuthGuard] },
   {path: 'home' , component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'admin', component: AdminComponent, canActivate: [AdminGuard]},
   {path: 'events', component: EvenementComponent, canActivate: [AdminGuard] },
-  {path: 'event-update/:event', component: EventUpdateComponent },
-  {path: 'event-detail/:event', component: EventDetailComponent }
+  {path: 'event-update/:event', component: EventUpdateComponent, canActivate: [AdminGuard] }
 
 
   ];
@@ -65,7 +66,8 @@ const appRoutes: Routes = [
     SignupComponent,
     EventUpdateComponent,
     EventDetailComponent,
-    MyEventsComponent
+    MyEventsComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,

@@ -17,8 +17,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    if (this.email !== '' && this.password !== '') {
    this.authServ.googleLogin(this.email, this.password).then(() => {
      console.log('logged in sucessfully');
-   });
+   }).catch(err => {console.log(err); });
+    }
   }
 }

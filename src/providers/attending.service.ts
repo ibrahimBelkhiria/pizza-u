@@ -33,6 +33,7 @@ export class AttendingService {
    // this.eventUser.subscribe(value => console.log(value));
     this.eventUser.subscribe(value => {
       this.tab = value;
+      console.log(this.tab);
     });
   }
 
@@ -40,7 +41,17 @@ export class AttendingService {
   getUserEvents(userId) {
     let events_users: EventUser[];
     const  userEvents: Evenement[] = [];
-    const eventssRef = this.afs.collection('event_user', ref => ref.where('user_id', '==', userId) );
+    console.log(this.tab);
+    for (const v of this.tab) {
+
+      if (v.user_id === userId) {
+        this.eventService.getEvent(v.event_id).valueChanges().subscribe(value1 => userEvents.push(value1));
+      }
+
+
+    }
+
+   /* const eventssRef = this.afs.collection('event_user', ref => ref.where('user_id', '==', userId) );
      eventssRef.valueChanges().subscribe(value => {
         events_users = value; // console.log(events_users);
 
@@ -50,7 +61,7 @@ export class AttendingService {
       //  console.log(userEvents);
 
 
-    });
+    });*/
      return userEvents;
 
   }
@@ -95,7 +106,17 @@ export class AttendingService {
 
 
   getEventUserId(userId, eventId) {
-    let events_users: EventUser[];
+
+
+
+    for (const v of this.tab) {
+      if (v.user_id === userId && v.event_id === eventId) {
+        return v.id;
+      }
+    }
+
+
+   /* let events_users: EventUser[];
     let eventUserId;
     const eventssRef = this.afs.collection('event_user', ref => ref.where('user_id', '==', userId) );
    return   eventssRef.valueChanges().map(value => {
@@ -104,22 +125,22 @@ export class AttendingService {
 
       for (const v of events_users) {
         if (v.event_id === eventId) {
-          console.log(v.id);
+          // console.log(v.id);
             return   eventUserId = v.id;
         }
       }
 
     });
-
+*/
   }
 
-  attend(event: Evenement, userid: string) {
+  attend(event: Evenement, eUser: EventUser) {
     console.log('attending !');
     event.reserved++;
-    this.eUser.id = this.afs.createId();
-    this.eUser.user_id = userid;
-    this.eUser.event_id = event.id;
-    this.eventUserCollection.add(this.eUser).then(() => {
+    // this.eUser.id = this.afs.createId();
+    /*this.eUser.user_id = userid;
+    this.eUser.event_id = event.id;*/
+    this.eventUserCollection.add(eUser).then(() => {
       console.log('eventuser added !');
     });
 
@@ -127,12 +148,13 @@ export class AttendingService {
 
   }
 
-    deleteAttendence(eUserId: string) {
-    // event-reserved -- ;
+    deleteAttendence(eUser) {
 
-      this.eventUserDoc = this.afs.doc(`event_user/${eUserId}`);
+
+      this.eventUserDoc = this.afs.doc(`event_user/${eUser}`);
+      this.eventUserDoc.valueChanges().subscribe(value => console.log(value));
       this.eventUserDoc.delete().then(() => {
-        console.log('subscription deleted with succes');
+        console.log('subscription deleted with success');
       }).catch((err) => {
         console.log(err);
       });

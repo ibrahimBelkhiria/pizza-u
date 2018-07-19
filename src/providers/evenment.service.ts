@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 
 import {Observable} from 'rxjs';
@@ -9,14 +9,15 @@ import {Router} from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class EvenmentService {
+export class EvenmentService implements OnInit {
 
 
   eventsCollection: AngularFirestoreCollection<Evenement>;
   events: Observable<Evenement[]>;
   eventDoc: AngularFirestoreDocument<Evenement>;
 
-
+  ngOnInit(): void {
+  }
 
   constructor(public afs: AngularFirestore, private router: Router) {
     // this.events = this.afs.collection('events').valueChanges();
@@ -45,6 +46,8 @@ export class EvenmentService {
 
   deleteEvent(event: Evenement) {
     this.eventDoc = this.afs.doc(`events/${event.id}`);
+    this.eventDoc.valueChanges().subscribe(value => console.log(value));
+
     this.eventDoc.delete().then(() => {
       console.log('event deleted with succes');
     }).catch((err) => {
@@ -68,5 +71,7 @@ export class EvenmentService {
       console.log(err);
     });
   }
+
+
 
 }

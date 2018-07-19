@@ -4,6 +4,8 @@ import {AuthenticationService} from '../../providers/authentication.service';
 import {Evenement} from '../../model/Evenement';
 import {EventUser} from '../../model/Event_User';
 import {EvenmentService} from '../../providers/evenment.service';
+import {Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-my-events',
@@ -13,25 +15,33 @@ import {EvenmentService} from '../../providers/evenment.service';
 export class MyEventsComponent implements OnInit {
   events: Evenement[];
   events_users: EventUser[];
-  constructor(private attendingService: AttendingService, private authService: AuthenticationService, private eventService: EvenmentService) {
-    const  uid = this.authService.getCurrentUserId();
+  subscription: Subscription;
+  constructor(private attendingService: AttendingService, private authService: AuthenticationService
+              , private eventService: EvenmentService, private router: Router) {
+            const  uid = this.authService.getCurrentUserId();
            this.events =  this.attendingService.getUserEvents(uid);
 
   }
 
-
+  detail(e) {
+    this.router.navigate(['event-detail', e.id]).catch((error) => {
+      console.log(error);
+    });
+  }
 
   unsubscribe(event: Evenement, eventId) {
-    this.attendingService.getEventUserId(this.authService.getCurrentUserId(), eventId).subscribe(
-      value => {
-        this.attendingService.deleteAttendence(value);
-        event.reserved--;
-        this.eventService.updateEvent(event, eventId);
+     const   value  =  this.attendingService.getEventUserId(this.authService.getCurrentUserId(), eventId) ;
 
-      }
+        console.log(value);
+       this.attendingService.deleteAttendence(value); // there is a bug in this line
+        console.log('somthing');
+        if (event.reserved > 0) {
+          event.reserved--;  // his line works fine
+          this.eventService.updateEvent(event, eventId);  // this line works fine too
+        }
 
 
-    );
+
   }
 
 
