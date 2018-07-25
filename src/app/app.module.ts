@@ -26,6 +26,7 @@ import { EventUpdateComponent } from './evenement/event-update/event-update.comp
 import { EventDetailComponent } from './evenement/event-detail/event-detail.component';
 import { MyEventsComponent } from './my-events/my-events.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import {AttendingService} from '../providers/attending.service';
 
 
 const config = {
@@ -79,7 +80,7 @@ const appRoutes: Routes = [
     AngularFirestoreModule,
     FormsModule
   ],
-  providers: [AuthenticationService, AuthGuard, AdminGuard, EvenmentService],
+  providers: [AuthenticationService, AdminGuard, EvenmentService, AttendingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

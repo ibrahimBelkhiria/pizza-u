@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../providers/authentication.service';
 import {EvenmentService} from '../../providers/evenment.service';
 import {Evenement} from '../../model/Evenement';
@@ -6,17 +6,19 @@ import {AttendingService} from '../../providers/attending.service';
 import {strictEqual} from 'assert';
 import {EventUser} from '../../model/Event_User';
 import {Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   auth: AuthenticationService;
   user ;
   events: Evenement[];
+  subscription: Subscription;
   constructor(auth: AuthenticationService, private eventService: EvenmentService, private attendService: AttendingService, private router: Router) {
     this.auth = auth ;
     this.user = auth.user$.subscribe( (user) => {
@@ -30,7 +32,9 @@ export class HomeComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this.eventService.getEvents().subscribe((res) => {
+
+    this.events = [];
+   this.subscription =   this.eventService.getEvents().subscribe((res) => {
       console.log('loaded');
       this.events = res;
     }, (error1 => console.log(error1)));
@@ -60,4 +64,10 @@ export class HomeComponent implements OnInit {
         this.attendService.attend(event, eventUser);
 
   }
+
+  ngOnDestroy(): void {
+  this.subscription.unsubscribe();
+
+  }
+
 }

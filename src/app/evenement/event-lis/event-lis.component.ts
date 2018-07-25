@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {EvenmentService} from '../../../providers/evenment.service';
 import {Evenement} from '../../../model/Evenement';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
@@ -10,18 +10,18 @@ import {Subscription} from 'rxjs';
   templateUrl: './event-lis.component.html',
   styleUrls: ['./event-lis.component.css']
 })
-export class EventLisComponent implements OnInit , OnDestroy {
+export class EventLisComponent  implements  OnInit {
 
-   subscription: Subscription;
-  evenement: Evenement[];
+    subscription: Subscription;
+    @Input() evenement: Evenement[];
   constructor(private eventService: EvenmentService, private router: Router) {
+    console.log('constructor log before  ' + this.evenement);
 
+    console.log('constructor log after  ' + this.evenement);
   }
 
 
-  ngOnInit() {
-         this.getEvnetList();
-  }
+
     updateEvent(e: Evenement) {
         console.log(e);
         this.router.navigate(['event-update', e.id]).catch((error) => {
@@ -37,10 +37,7 @@ export class EventLisComponent implements OnInit , OnDestroy {
     }
 
     getEvnetList() {
-  this.subscription =  this.eventService.getEvents().subscribe((res) => {
-      console.log(res);
-      this.evenement = res;
-    });
+
 
     }
 
@@ -51,7 +48,15 @@ export class EventLisComponent implements OnInit , OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  ngOnInit(): void {
+
   }
+
+
+
+  /*ngOnDestroy() {
+/!*
+    this.subscription.unsubscribe();
+*!/
+  }*/
 }

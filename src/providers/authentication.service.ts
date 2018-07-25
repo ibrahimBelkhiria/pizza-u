@@ -13,11 +13,12 @@ import 'rxjs/add/operator/switchMap';
 export class AuthenticationService {
 
   user$: Observable<User>;
-
+  af: AngularFireAuth;
   constructor(private afAuth: AngularFireAuth,
               private afs: AngularFirestore,
               private router: Router) {
     //// Get auth data, then get firestore user document || null
+    this.af = this.afAuth;
     this.user$ = this.afAuth.authState
       .switchMap(user => {
         if (user) {

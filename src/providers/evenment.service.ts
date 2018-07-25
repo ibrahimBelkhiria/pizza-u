@@ -1,15 +1,14 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable, OnDestroy, OnInit} from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 
 import {Observable} from 'rxjs';
 import {Evenement} from '../model/Evenement';
 import 'rxjs-compat/add/operator/map';
 import {Router} from '@angular/router';
+import {map} from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class EvenmentService implements OnInit {
+@Injectable()
+export class EvenmentService implements OnInit , OnDestroy {
 
 
   eventsCollection: AngularFirestoreCollection<Evenement>;
@@ -21,15 +20,18 @@ export class EvenmentService implements OnInit {
 
   constructor(public afs: AngularFirestore, private router: Router) {
     // this.events = this.afs.collection('events').valueChanges();
-    this.eventsCollection = this.afs.collection('events', ref => ref.orderBy('title', 'asc'));
+    this.eventsCollection = this.afs.collection<Evenement>('events');
 
-    this.events = this.eventsCollection.snapshotChanges().map(changes => {
-      return changes.map(a => {
+
+    this.events =  this.eventsCollection.snapshotChanges().pipe( map(changes => {
+      changes.map(a => {
         const data = a.payload.doc.data() as Evenement;
-        data.id = a.payload.doc.id;
-        return data;
+        const id = a.payload.doc.id;
+        return {id, ...data};
       });
-    });
+    }) );
+
+    console.log('///////////////////', this.events);
   }
 
   getEvents() {
@@ -70,6 +72,10 @@ export class EvenmentService implements OnInit {
     }).catch((err) => {
       console.log(err);
     });
+  }
+
+  ngOnDestroy(): void {
+
   }
 
 

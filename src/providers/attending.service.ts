@@ -6,10 +6,9 @@ import {Observable} from 'rxjs';
 import {EventUser} from '../model/Event_User';
 import {forEach} from '@angular/router/src/utils/collection';
 import {User} from '../model/User';
+import {tick} from '@angular/core/testing';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AttendingService {
 
   eUser: EventUser = {
@@ -47,7 +46,6 @@ export class AttendingService {
       if (v.user_id === userId) {
         this.eventService.getEvent(v.event_id).valueChanges().subscribe(value1 => userEvents.push(value1));
       }
-
 
     }
 
@@ -153,11 +151,15 @@ export class AttendingService {
 
       this.eventUserDoc = this.afs.doc(`event_user/${eUser}`);
       this.eventUserDoc.valueChanges().subscribe(value => console.log(value));
-      this.eventUserDoc.delete().then(() => {
-        console.log('subscription deleted with success');
-      }).catch((err) => {
-        console.log(err);
-      });
+
+       return  this.eventUserDoc.delete();
+      //   .then(() => {
+      //   console.log('subscription deleted with success');
+      //
+      //
+      // }).catch((err) => {
+      //   console.log(err);
+      // });
 
       //  this.eventUserDoc = this.afs.doc('event_user');
 

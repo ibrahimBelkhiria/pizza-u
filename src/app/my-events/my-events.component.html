@@ -1,14 +1,14 @@
 
 <br>
-<div *ngFor="let event of events" class="card border-dark mb-3" style="max-width: 18rem;">
-  <div class="card-header">Date : {{event.date.day}}-{{event.date.month}}-{{event.date.year}} | Available places : {{ event.nbreDePlace - event.reserved}}</div>
+<div *ngFor="let event of events" class="card border-dark mb-3" style="width: 318px;box-shadow: 1px 1px 1px 1px grey;">
+  <div class="card-header"style="background-color: white">Date : {{event.date.day}}-{{event.date.month}}-{{event.date.year}} | Available places : {{ event.nbreDePlace - event.reserved}}</div>
   <div class="card-body text-dark">
     <h5 class="card-title">{{event.title}}</h5>
     <p class="card-text">{{event.description}}</p>
   </div>
-  <div class="card-footer">
-    <button (click)="unsubscribe(event,event.id)">Unsubscribe</button>
-    <button class="btn btn-success" (click)="detail(event)">view Details</button>
+  <div class="card-footer" style="background-color: white">
+    <button  class="btn" (click)="unsubscribe(event,event.id)">Unsubscribe</button>
+    <button class="btn " style="background-color: skyblue" (click)="detail(event)">view Details</button>
   </div>
 
 </div>

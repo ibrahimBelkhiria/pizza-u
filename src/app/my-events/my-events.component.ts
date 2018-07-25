@@ -33,11 +33,22 @@ export class MyEventsComponent implements OnInit {
      const   value  =  this.attendingService.getEventUserId(this.authService.getCurrentUserId(), eventId) ;
 
         console.log(value);
-       this.attendingService.deleteAttendence(value); // there is a bug in this line
+       this.attendingService.deleteAttendence(value).then(res => {
+                      console.log(res);
+         /*this.events.map((v, k) => {
+           if (v.id === value) {
+             this.events.splice(k, 1);
+           }
+         });*/
+
+
+       }, err => {
+
+       }); // there is a bug in this line
         console.log('somthing');
-        if (event.reserved > 0) {
-          event.reserved--;  // his line works fine
-          this.eventService.updateEvent(event, eventId);  // this line works fine too
+         if (event.reserved > 0) {
+           event.reserved--;  // his line works fine
+           this.eventService.updateEvent(event, eventId);  // this line works fine too
         }
 
 
