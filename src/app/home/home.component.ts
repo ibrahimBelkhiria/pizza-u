@@ -19,13 +19,42 @@ export class HomeComponent implements OnInit, OnDestroy {
   user ;
   events: Evenement[];
   subscription: Subscription;
-  constructor(auth: AuthenticationService, private eventService: EvenmentService, private attendService: AttendingService, private router: Router) {
+
+    day = new Date().getDate();
+    month = new  Date().getUTCMonth() + 1;
+    year = new Date().getFullYear();
+
+  constructor(auth: AuthenticationService, private eventService: EvenmentService, private attendService: AttendingService,
+              private router: Router) {
     this.auth = auth ;
     this.user = auth.user$.subscribe( (user) => {
     this.user = user;
+
   });
 
+    this.subscription =   this.eventService.getEvents().subscribe((res) => {
+      console.log(res);
+      this.events = res;
+    }, (error1 => console.log(error1)));
+
   }
+
+ // this mehtod returns false if the event date not available and true otherwise
+  compareDates(day, month, year): boolean {
+
+    if (year < this.year) {
+      return false;
+    } else if (this.year === year && this.month < month) {
+      return false;
+    } else if ( this.year === year && this.month === month && this.day < day ) {
+      return false;
+    } else {
+      return true;
+    }
+
+  }
+
+
   detail(e) {
     this.router.navigate(['event-detail', e.id]).catch((error) => {
       console.log(error);
@@ -33,11 +62,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
 
-    this.events = [];
-   this.subscription =   this.eventService.getEvents().subscribe((res) => {
-      console.log('loaded');
-      this.events = res;
-    }, (error1 => console.log(error1)));
+     // this.events = [];
+
 
   }
 
@@ -66,7 +92,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-  this.subscription.unsubscribe();
+
+   this.subscription.unsubscribe();
 
   }
 

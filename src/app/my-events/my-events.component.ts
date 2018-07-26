@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AttendingService} from '../../providers/attending.service';
 import {AuthenticationService} from '../../providers/authentication.service';
 import {Evenement} from '../../model/Evenement';
@@ -6,13 +6,14 @@ import {EventUser} from '../../model/Event_User';
 import {EvenmentService} from '../../providers/evenment.service';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
+import {k, v} from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-my-events',
   templateUrl: './my-events.component.html',
   styleUrls: ['./my-events.component.css']
 })
-export class MyEventsComponent implements OnInit {
+export class MyEventsComponent implements OnInit, OnDestroy {
   events: Evenement[];
   events_users: EventUser[];
   subscription: Subscription;
@@ -33,13 +34,27 @@ export class MyEventsComponent implements OnInit {
      const   value  =  this.attendingService.getEventUserId(this.authService.getCurrentUserId(), eventId) ;
 
         console.log(value);
-       this.attendingService.deleteAttendence(value).then(res => {
-                      console.log(res);
+        this.attendingService.deleteAttendence(value).then(res => {
+                      console.log(this.events);
          /*this.events.map((v, k) => {
            if (v.id === value) {
              this.events.splice(k, 1);
            }
          });*/
+          this.events.map((v, k) => {
+            if (v.id === eventId ) {
+              console.log(v.description);
+              this.events.splice(k, 1);
+            }
+
+          });
+          this.events.map((v, k) => {
+            if (v.id === eventId ) {
+              console.log(v.description);
+              this.events.splice(k, 1);
+            }
+
+          });
 
 
        }, err => {
@@ -54,9 +69,11 @@ export class MyEventsComponent implements OnInit {
 
 
   }
-
-
   ngOnInit() {
   }
 
+
+  ngOnDestroy() {
+
+  }
 }

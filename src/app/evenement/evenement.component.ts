@@ -12,15 +12,19 @@ import {Subscription} from 'rxjs';
 export class EvenementComponent implements OnInit, OnDestroy {
   evenement: Evenement[];
   subscription: Subscription;
-  constructor(private eventService:  EvenmentService) { }
 
-  ngOnInit() {
+  constructor(private eventService:  EvenmentService) {
 
-   this.subscription =   this.eventService.getEvents().subscribe((res) => {
+    this.subscription =   this.eventService.getEvents().subscribe((res) => {
       console.log(res);
       this.evenement = res;
 
     });
+
+  }
+
+  ngOnInit() {
+
   }
 
   ngOnDestroy(): void {

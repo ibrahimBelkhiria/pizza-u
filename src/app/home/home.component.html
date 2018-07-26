@@ -14,7 +14,8 @@
 
   <div class="card-footer"style="background-color: white" >
       <div *ngIf="already(event)" style="color: red;">you already subscribed to this event</div>
-    <button  class="btn btn-default" (click)="attend(event)" [disabled]="!(event.reserved< event.nbreDePlace) || already(event)">Subscribe</button>  </div>
+      <div *ngIf="compareDates(event.date.day,event.date.month,event.date.year)" style="color: red">Too late to subscribe the event </div>
+    <button  class="btn btn-default" (click)="attend(event)" [disabled]="!(event.reserved< event.nbreDePlace) || already(event) ||compareDates(event.date.day,event.date.month,event.date.year)">Subscribe</button>  </div>
     <button class="btn " style="background-color: skyblue" (click)="detail(event)">view Details</button>
 </div>
 

@@ -10,7 +10,7 @@ import {Subscription} from 'rxjs';
   templateUrl: './event-lis.component.html',
   styleUrls: ['./event-lis.component.css']
 })
-export class EventLisComponent  implements  OnInit {
+export class EventLisComponent  implements  OnInit, OnDestroy {
 
     subscription: Subscription;
     @Input() evenement: Evenement[];
@@ -54,9 +54,7 @@ export class EventLisComponent  implements  OnInit {
 
 
 
-  /*ngOnDestroy() {
-/!*
-    this.subscription.unsubscribe();
-*!/
-  }*/
+  ngOnDestroy() {
+
+  }
 }

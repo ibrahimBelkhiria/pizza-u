@@ -16,26 +16,30 @@ export class EvenmentService implements OnInit , OnDestroy {
   eventDoc: AngularFirestoreDocument<Evenement>;
 
   ngOnInit(): void {
+
+
+
   }
 
   constructor(public afs: AngularFirestore, private router: Router) {
     // this.events = this.afs.collection('events').valueChanges();
     this.eventsCollection = this.afs.collection<Evenement>('events');
-
-
-    this.events =  this.eventsCollection.snapshotChanges().pipe( map(changes => {
-      changes.map(a => {
+    this.events =  this.eventsCollection.snapshotChanges().pipe(
+      map(changes =>  changes.map(a => {
         const data = a.payload.doc.data() as Evenement;
         const id = a.payload.doc.id;
         return {id, ...data};
-      });
-    }) );
+      }))
+    ) ;
 
     console.log('///////////////////', this.events);
   }
 
   getEvents() {
-    return this.events;
+
+    return this.events.map(value => value );
+
+
   }
 
   addEvent(event: Evenement) {
@@ -65,8 +69,8 @@ export class EvenmentService implements OnInit , OnDestroy {
 
 
   updateEvent(event: Evenement, id) {
-    this.eventDoc = this.afs.doc(`events/${id}`);
-    this.eventDoc.update(event).then(() => {
+     // this.eventDoc = this.afs.doc(`events/${id}`); //  before change
+    this.getEvent(id).update(event).then(() => {
 
       console.log('event updated with succes');
     }).catch((err) => {

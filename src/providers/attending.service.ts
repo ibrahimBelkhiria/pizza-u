@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {Evenement} from '../model/Evenement';
 import {EvenmentService} from './evenment.service';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {EventUser} from '../model/Event_User';
 import {forEach} from '@angular/router/src/utils/collection';
 import {User} from '../model/User';
 import {tick} from '@angular/core/testing';
 
 @Injectable()
-export class AttendingService {
+export class AttendingService implements OnDestroy {
 
   eUser: EventUser = {
     event_id : '',
@@ -19,6 +19,7 @@ export class AttendingService {
   eventUser: Observable<EventUser[]>;
   eventUserDoc: AngularFirestoreDocument<EventUser>;
   tab: EventUser[];
+  subscription: Subscription[] = [];
   constructor(private eventService: EvenmentService, public afs: AngularFirestore) {
     this.eventUserCollection = this.afs.collection('event_user');
 
@@ -30,10 +31,10 @@ export class AttendingService {
       });
     });
    // this.eventUser.subscribe(value => console.log(value));
-    this.eventUser.subscribe(value => {
+   this.subscription.push(this.eventUser.subscribe(value => {
       this.tab = value;
       console.log(this.tab);
-    });
+    }));
   }
 
   // returns all events that a user had subscribed to
@@ -44,7 +45,7 @@ export class AttendingService {
     for (const v of this.tab) {
 
       if (v.user_id === userId) {
-        this.eventService.getEvent(v.event_id).valueChanges().subscribe(value1 => userEvents.push(value1));
+      this.subscription.push(this.eventService.getEvent(v.event_id).valueChanges().subscribe(value1 => userEvents.push(value1)));
       }
 
     }
@@ -140,9 +141,10 @@ export class AttendingService {
     this.eUser.event_id = event.id;*/
     this.eventUserCollection.add(eUser).then(() => {
       console.log('eventuser added !');
+      this.eventService.updateEvent(event, event.id);
     });
 
-    this.eventService.updateEvent(event, event.id);
+
 
   }
 
@@ -150,7 +152,9 @@ export class AttendingService {
 
 
       this.eventUserDoc = this.afs.doc(`event_user/${eUser}`);
+/*
       this.eventUserDoc.valueChanges().subscribe(value => console.log(value));
+*/
 
        return  this.eventUserDoc.delete();
       //   .then(() => {
@@ -186,6 +190,19 @@ export class AttendingService {
 
 
   }
+
+  ngOnDestroy(): void {
+
+
+    for (const sub of this.subscription) {
+      sub.unsubscribe();
+    }
+
+
+  }
+
+
+
 
 
 }

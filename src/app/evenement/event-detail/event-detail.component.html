@@ -6,10 +6,11 @@
     <p class="card-text">{{event.description}}</p>
 
   </div>
-  <div  class="btn btn-primary" (click)="getAllParticipants(event.id)">List</div>
+  <button  class="btn btn-primary" (click)="getAllParticipants(event.id)" >List</button>
 </div>
 
-<h5 class="jasmine-title">List of participants</h5>
+<h5 class="jasmine-title" *ngIf="users">List of participants</h5>
+
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let u of users">{{u.email}}</li>
 
