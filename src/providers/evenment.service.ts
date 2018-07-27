@@ -37,7 +37,7 @@ export class EvenmentService implements OnInit , OnDestroy {
 
   getEvents() {
 
-    return this.events.map(value => value );
+    return this.events;
 
 
   }

@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable, OnDestroy, OnInit} from '@angular/core';
 import {Evenement} from '../model/Evenement';
 import {EvenmentService} from './evenment.service';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
@@ -20,6 +20,7 @@ export class AttendingService implements OnDestroy {
   eventUserDoc: AngularFirestoreDocument<EventUser>;
   tab: EventUser[];
   subscription: Subscription[] = [];
+
   constructor(private eventService: EvenmentService, public afs: AngularFirestore) {
     this.eventUserCollection = this.afs.collection('event_user');
 
@@ -31,10 +32,10 @@ export class AttendingService implements OnDestroy {
       });
     });
    // this.eventUser.subscribe(value => console.log(value));
-   this.subscription.push(this.eventUser.subscribe(value => {
+   this.eventUser.subscribe(value => {
       this.tab = value;
       console.log(this.tab);
-    }));
+    });
   }
 
   // returns all events that a user had subscribed to
@@ -64,6 +65,18 @@ export class AttendingService implements OnDestroy {
      return userEvents;
 
   }
+
+    clear() {
+      console.log(this.subscription.length);
+      for (const sub of this.subscription) {
+
+        sub.unsubscribe();
+      }
+      this.subscription = [];
+    }
+
+
+
 
   getAllUsersOfAGivenEvent(eventID) {
     let events_users: EventUser[];
@@ -193,8 +206,9 @@ export class AttendingService implements OnDestroy {
 
   ngOnDestroy(): void {
 
-
+     console.log(this.subscription.length);
     for (const sub of this.subscription) {
+
       sub.unsubscribe();
     }
 

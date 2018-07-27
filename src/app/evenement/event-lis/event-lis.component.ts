@@ -55,6 +55,6 @@ export class EventLisComponent  implements  OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-
+    this.evenement = [];
   }
 }

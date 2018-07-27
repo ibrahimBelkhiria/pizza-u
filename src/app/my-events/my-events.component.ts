@@ -74,6 +74,8 @@ export class MyEventsComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
+    this.attendingService.clear();
+    console.log('clear as cristal');
 
   }
 }
