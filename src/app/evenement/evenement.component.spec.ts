@@ -5,7 +5,7 @@ import {EvenmentService} from '../../providers/evenment.service';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {of} from 'rxjs';
 
-fdescribe('EvenementComponent', () => {
+describe('EvenementComponent', () => {
   let component: EvenementComponent;
   let fixture: ComponentFixture<EvenementComponent>;
   let eventService;

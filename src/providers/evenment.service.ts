@@ -56,7 +56,7 @@ export class EvenmentService implements OnInit , OnDestroy {
     this.eventDoc.valueChanges().subscribe(value => console.log(value));
 
     this.eventDoc.delete().then(() => {
-      console.log('event deleted with succes');
+      console.log('event deleted with success');
     }).catch((err) => {
       console.log(err);
     });
@@ -70,9 +70,16 @@ export class EvenmentService implements OnInit , OnDestroy {
 
 
   // update the event in the firestore
-  updateEvent(event: Evenement, id) {
+  updateEvent(event: Evenement, eventid) {
      // this.eventDoc = this.afs.doc(`events/${id}`); //  before change
-    this.getEvent(id).update(event).then(() => {
+    this.getEvent(eventid).update(event).then(() => {
+      this.events =  this.eventsCollection.snapshotChanges().pipe(
+        map(changes =>  changes.map(a => {
+          const data = a.payload.doc.data() as Evenement;
+          const id = a.payload.doc.id;
+          return {id, ...data};
+        }))
+      ) ;
 
       console.log('event updated with succes');
     }).catch((err) => {

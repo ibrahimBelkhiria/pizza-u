@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {AuthenticationService} from '../providers/authentication.service';
+import {AttendingService} from '../providers/attending.service';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,7 @@ import {AuthenticationService} from '../providers/authentication.service';
 })
 export class AppComponent {
 
-
-
-
-  constructor() {
+  constructor(private  attend: AttendingService) {
   }
 
 
