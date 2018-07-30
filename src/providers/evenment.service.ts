@@ -17,13 +17,13 @@ export class EvenmentService implements OnInit , OnDestroy {
 
   ngOnInit(): void {
 
-
-
   }
 
-  constructor(public afs: AngularFirestore, private router: Router) {
+  constructor(public afs: AngularFirestore) {
     // this.events = this.afs.collection('events').valueChanges();
+    //  get an instance of the collection from firestore
     this.eventsCollection = this.afs.collection<Evenement>('events');
+    // store the events from firestore to events variable
     this.events =  this.eventsCollection.snapshotChanges().pipe(
       map(changes =>  changes.map(a => {
         const data = a.payload.doc.data() as Evenement;
@@ -35,13 +35,13 @@ export class EvenmentService implements OnInit , OnDestroy {
     console.log('///////////////////', this.events);
   }
 
+  // returns an observable of events
   getEvents() {
 
     return this.events;
-
-
   }
 
+   // add the event to the firestore
   addEvent(event: Evenement) {
     this.eventsCollection.add(event).then(() => {
       console.log('event added success');
@@ -50,6 +50,7 @@ export class EvenmentService implements OnInit , OnDestroy {
     });
   }
 
+  // delete the event from the firestore
   deleteEvent(event: Evenement) {
     this.eventDoc = this.afs.doc(`events/${event.id}`);
     this.eventDoc.valueChanges().subscribe(value => console.log(value));
@@ -61,13 +62,14 @@ export class EvenmentService implements OnInit , OnDestroy {
     });
   }
 
+  // returns a single event;it takes the id of the event as a  parameter
   getEvent(evenetId) {
     return  this.afs.doc(`events/${evenetId}`);
   }
 
 
 
-
+  // update the event in the firestore
   updateEvent(event: Evenement, id) {
      // this.eventDoc = this.afs.doc(`events/${id}`); //  before change
     this.getEvent(id).update(event).then(() => {
@@ -81,7 +83,5 @@ export class EvenmentService implements OnInit , OnDestroy {
   ngOnDestroy(): void {
 
   }
-
-
 
 }

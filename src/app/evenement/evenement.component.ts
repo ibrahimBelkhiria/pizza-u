@@ -10,11 +10,14 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./evenement.component.css']
 })
 export class EvenementComponent implements OnInit, OnDestroy {
+
+  // this is a list of events
   evenement: Evenement[];
   subscription: Subscription;
 
   constructor(private eventService:  EvenmentService) {
 
+    // subscribe to the getEvents() and return the events
     this.subscription =   this.eventService.getEvents().subscribe((res) => {
       console.log(res);
       this.evenement = res;
@@ -28,6 +31,7 @@ export class EvenementComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // unsubscribe when the component is destroyed
     this.subscription.unsubscribe();
 
 

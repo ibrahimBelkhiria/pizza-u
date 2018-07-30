@@ -14,15 +14,5 @@ export class AppComponent {
   constructor() {
   }
 
-/*
-  doLogin(): void {
-    this.auth.login();
-    console.log(this.auth.currentUser);
-  }
-
-  doLogout(): void {
-    this.auth.logout();
-  }*/
-
 
 }

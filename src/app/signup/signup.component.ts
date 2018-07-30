@@ -15,6 +15,9 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
   }
+
+
+  // signup  in the application
   login() {
     this.authServ.signUp(this.email, this.password).then(() => {
       console.log('signed up  sucessfully');

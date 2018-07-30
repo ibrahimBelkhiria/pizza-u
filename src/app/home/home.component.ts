@@ -13,25 +13,28 @@ import {Subscription} from 'rxjs';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+// this is the home component the logic behind the home page
 export class HomeComponent implements OnInit, OnDestroy {
 
+/*
   auth: AuthenticationService;
+*/
   user ;
   events: Evenement[];
   subscription: Subscription;
-
+    // get the day ,month and the year : we need this for a later logic
     day = new Date().getDate();
     month = new  Date().getUTCMonth() + 1;
     year = new Date().getFullYear();
 
-  constructor(auth: AuthenticationService, private eventService: EvenmentService, private attendService: AttendingService,
+  constructor(private auth: AuthenticationService, private eventService: EvenmentService, private attendService: AttendingService,
               private router: Router) {
-    this.auth = auth ;
-    this.user = auth.user$.subscribe( (user) => {
-    this.user = user;
-
-  });
-
+    /*this.auth = auth ;*/
+        this.user = this.auth.user$.subscribe( (user) => {
+              this.user = user;
+        });
+        console.log('constructed');
+      // get the list of the events and add the subscription so we can unscubsribe later
     this.subscription =   this.eventService.getEvents().subscribe((res) => {
       console.log(res);
       this.events = res;
@@ -54,27 +57,26 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   }
 
-
+  // navigate to the detail page
   detail(e) {
     this.router.navigate(['event-detail', e.id]).catch((error) => {
       console.log(error);
     });
   }
   ngOnInit() {
-
+      console.log('heho');
      // this.events = [];
-
 
   }
 
-
+ // returns true if the user is already subscribed to the event
   already(event: Evenement) {
      const  uid = this.auth.getCurrentUserId();
      // console.log(' subscribed: ' , this.attendService.UserisAlreadySubscribed(event.id, uid));
     return this.attendService.UserisAlreadySubscribed(event.id, uid);
   }
 
-
+    // call the attend method from the attendService  so the user can subscribe to the event
   attend(event: Evenement) {
          const  uid = this.auth.getCurrentUserId();
 
@@ -84,9 +86,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
           };
 
-
-          // this.attendService.UserisAlreadySubscribed(event.id, uid);
-        //  console.log(this.attendService.UserisAlreadySubscribed(event.id, uid));
         this.attendService.attend(event, eventUser);
 
   }
@@ -94,6 +93,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
 
    this.subscription.unsubscribe();
+   console.log('home destroyed');
+
 
   }
 

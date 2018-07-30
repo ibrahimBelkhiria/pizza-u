@@ -49,7 +49,6 @@ const appRoutes: Routes = [
   {path: 'events', component: EvenementComponent, canActivate: [AdminGuard] },
   {path: 'event-update/:event', component: EventUpdateComponent, canActivate: [AdminGuard] }
 
-
   ];
 
 

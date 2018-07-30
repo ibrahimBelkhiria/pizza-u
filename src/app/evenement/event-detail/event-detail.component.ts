@@ -30,17 +30,15 @@ export class EventDetailComponent implements OnInit, OnDestroy {
 
   }
 
-
+ // get All participants of the event
   getAllParticipants(eventid) {
-
+    // call the service and store the subscription so we can unsubscribe at ngOnDestroy
    this.attendingServSubs =   this.attendService.getAllUsersOfAGivenEvent(eventid).subscribe(value => {
-
-      /* value.subscribe(value1 => console.log(value1));*/
        this.users = value;
        console.log(value);
 
      } );
-    //  console.log(this.users);
+
   }
 
 
@@ -48,6 +46,8 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+
+    // unsubscribe from the observables
     this.eventServiceSubs.unsubscribe();
     if (this.attendingServSubs != null) {  this.attendingServSubs.unsubscribe(); }
 

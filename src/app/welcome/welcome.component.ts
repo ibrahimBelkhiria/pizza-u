@@ -19,7 +19,7 @@ export class WelcomeComponent implements OnInit {
 
   }
 
-
+  // redirects to  the home page if the user is authenticated or the login page otherwise
   goHome() {
       console.log(this.user == null);
      // redirect to login page if the user is not login

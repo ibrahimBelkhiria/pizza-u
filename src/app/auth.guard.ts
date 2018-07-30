@@ -7,6 +7,7 @@ import {isNullOrUndefined} from 'util';
 @Injectable({
   providedIn: 'root'
 })
+// this is a guard for the routes that are accessible to only authenticated users
 export class AuthGuard implements CanActivate {
 
   constructor(private authService: AuthenticationService, private router: Router) {

@@ -22,16 +22,17 @@ export class NavbarComponent implements OnInit {
 
   }
   navbarOpen = false;
-
+ // just for the toggling of the navbar when it is resized
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;
   }
 
-
+  // logout from the application
   doLogout(): void {
     this.auth.signOut();
   }
 
+  // redirects to the login page to login
   doLogin(): void {
     this.router.navigate(['login']);
     // console.log(this.auth.currentUser);

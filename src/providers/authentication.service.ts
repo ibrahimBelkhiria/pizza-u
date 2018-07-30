@@ -30,7 +30,7 @@ export class AuthenticationService {
   }
 
 
-
+   // get the id of the current user
   getCurrentUserId() {
     return this.afAuth.auth.currentUser.uid;
   }
@@ -64,23 +64,14 @@ export class AuthenticationService {
       });
   }
 
- /* private oAuthLogin(provider) {
-    return this.afAuth.auth.signInWithPopup(provider)
-      .then((credential) => {
-        this.updateUserData(credential.user).then(() => {
-          this.router.navigate(['home']);
-        });
-
-      });
-  }*/
-
+   // signout form the app
   signOut() {
     this.afAuth.auth.signOut().then(() => {
       console.log('logout');
       this.router.navigate(['']);
     });
   }
-
+   // updates the user data in the firestore
   private updateUserData(user) {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);

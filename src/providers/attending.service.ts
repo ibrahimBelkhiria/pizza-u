@@ -43,6 +43,7 @@ export class AttendingService implements OnDestroy {
     let events_users: EventUser[];
     const  userEvents: Evenement[] = [];
     console.log(this.tab);
+    // loop over the event_user table and get the events of the user
     for (const v of this.tab) {
 
       if (v.user_id === userId) {
@@ -66,6 +67,7 @@ export class AttendingService implements OnDestroy {
 
   }
 
+    // unsubscribe to  observables
     clear() {
       console.log(this.subscription.length);
       for (const sub of this.subscription) {
@@ -76,8 +78,7 @@ export class AttendingService implements OnDestroy {
     }
 
 
-
-
+   // get all the participants for a certain event
   getAllUsersOfAGivenEvent(eventID) {
     let events_users: EventUser[];
     const  users: User[] = [];
@@ -99,6 +100,7 @@ export class AttendingService implements OnDestroy {
      //  return user;
   }
 
+  // get users
   getUsers(events_users_table: EventUser[], event_id) {
    const users: User[] = [];
     const userIDs: string[] = [];
@@ -116,7 +118,7 @@ export class AttendingService implements OnDestroy {
         return users;
   }
 
-
+ // get the id of an event_user object
   getEventUserId(userId, eventId) {
 
 
@@ -128,24 +130,9 @@ export class AttendingService implements OnDestroy {
     }
 
 
-   /* let events_users: EventUser[];
-    let eventUserId;
-    const eventssRef = this.afs.collection('event_user', ref => ref.where('user_id', '==', userId) );
-   return   eventssRef.valueChanges().map(value => {
-      events_users = value;  // console.log(events_users);
-      //  console.log(userEvents);
-
-      for (const v of events_users) {
-        if (v.event_id === eventId) {
-          // console.log(v.id);
-            return   eventUserId = v.id;
-        }
-      }
-
-    });
-*/
   }
 
+  // attend the event,let the user subscribe to a certain event
   attend(event: Evenement, eUser: EventUser) {
     console.log('attending !');
     event.reserved++;
@@ -161,8 +148,8 @@ export class AttendingService implements OnDestroy {
 
   }
 
+   // let the user unsubscribe from an event and delete his subscription
     deleteAttendence(eUser) {
-
 
       this.eventUserDoc = this.afs.doc(`event_user/${eUser}`);
 /*
@@ -170,15 +157,6 @@ export class AttendingService implements OnDestroy {
 */
 
        return  this.eventUserDoc.delete();
-      //   .then(() => {
-      //   console.log('subscription deleted with success');
-      //
-      //
-      // }).catch((err) => {
-      //   console.log(err);
-      // });
-
-      //  this.eventUserDoc = this.afs.doc('event_user');
 
     }
 

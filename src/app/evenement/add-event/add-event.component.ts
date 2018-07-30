@@ -10,7 +10,7 @@ import * as firebase from 'firebase/app';
 export class AddEventComponent implements OnInit {
 
 
-
+  // the event object
   event: Evenement = {
       title: '',
       description: '',
@@ -23,9 +23,12 @@ export class AddEventComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  // this method is responsible for the add
   onSubmit() {
 
     console.log(this.event);
+    // call the eventService and add an event
     this.evnetService.addEvent(this.event);
 
   }

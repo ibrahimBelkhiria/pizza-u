@@ -6,6 +6,7 @@ import { tap, map, take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
+// this is the guard for the routes that are only  accessible by the admin
 export class AdminGuard implements CanActivate {
 
   constructor(private authService: AuthenticationService) {

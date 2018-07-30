@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  // uses the authService and login the user
   login() {
     if (this.email !== '' && this.password !== '') {
    this.authServ.googleLogin(this.email, this.password).then(() => {
